@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <h1>注册</h1>
+    用户名：<input type="text" id="username"><br>
+    密码：<input type="text" id="password"><br>
+    邮箱：<input type="text" id="userMail"><br>
+    手机号：<input type="text" id="userPhone"><br>
+    <button id="button">注册</button>
+
+    <h1>登录</h1>
+    用户名：<input type="text" id="username1"><br>
+    密码：<input type="text" id="password1"><br>
+    <button id="button1">登录</button>
+    <script>
+        let url = 'http://localhost:3000/users/register'
+        $('#button').click(function () {
+            $.post(url, {
+                username:  $('#username').val(),
+                password: $('#password').val(),
+                userMail: $('#userMail').val(),
+                userPhone: $('#userPhone').val()
+            }, function (res) {
+                console.log(res)
+            })
+        })
+
+        let url1 = 'http://localhost:3000/users/login'
+            $('#button1').click(function () {
+                $.post(url1, {
+                    username: $('#username1').val(),
+                    password: $('#password1').val()
+                }, function (res) {
+                    console.log(res)
+                    if(res.status===0)
+                    location.href='../views/home.html'
+                })
+            })
+    </script>
+</body>
+
+</html>
