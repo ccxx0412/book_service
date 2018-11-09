@@ -4,7 +4,7 @@ var router = express.Router()
 var user = require('../models/user')
 var crypto = require('crypto')
 var movie = require('../models/movie')
-var mial = require('../models/mail')
+var mail = require('../models/mail')
 var comment = require('../models/comment')
 
 /* GET users listing. */
@@ -115,10 +115,81 @@ router.post('/register', function(req, res, next) {
     }
   })
 })
-// 用户提交评论
-router.post('/postComment', function(req, res, next) {})
-// 用户点赞
-router.post('/support', function(req, res, next) {})
+/**
+ * @api {post} /user/postComment 用户评论
+ * @apiDescription 用户评论
+ * @apiName postComment
+ * @apiGroup User
+ * @apiParam {string} username 用户名
+ * @apiParam {string} movie_id 电影id
+ * @apiParam {string} context 评论内容
+ * @apiSuccess {json} data 返回值
+ * @apiSuccessExample {json} Success-Response:
+ *  {
+ *      status: 0, 
+ *      message: '评论成功'
+ *  }
+ * @apiSampleRequest http://localhost:3000/users/postComment
+ * @apiVersion 1.0.0
+ */
+router.post('/postComment', function(req, res, next) {
+  if(!req.body.username){
+    var username='匿名用户'
+  }
+  if(!req.body.movie_id){
+    res.json({status:1,message:'电影id为空'})
+  }
+  if(!req.body.context){
+    res.json({ status: 1, message: '评论内容为空' })    
+  }
+  // 根据数据集建立一个新的数据内容
+  var saveComment=new comment({
+    movie_id:req.body.movie_id,
+    username:req.body.username?req.body.username:username,
+    context:req.body.context,
+    check:false
+  })
+  // 保存合适的数据集
+  saveComment.save(function(err){
+    if(err){
+      res.json({status:1,message:err})
+    }else{
+      res.json({status:0,message:'评论成功'})
+    }
+  })
+
+})
+/**
+ * @api {post} /user/support 用户点赞
+ * @apiDescription 用户点赞
+ * @apiName support
+ * @apiGroup User
+ * @apiParam {string} movie_id 电影id
+ * @apiSuccess {json} data 返回值
+ * @apiSuccessExample {json} Success-Response:
+ *  {
+ *      status: 0, 
+ *      message: '点赞成功'
+ *  }
+ * @apiSampleRequest http://localhost:3000/users/support
+ * @apiVersion 1.0.0
+ */
+router.post('/support', function(req, res, next) {
+  if (!req.body.movie_id) {
+    res.json({ status: 1, message: '电影id传输失败' })
+  }
+  movie.findById(req.body.movie_id,function(err,supportMovie){
+    // 更新操作
+    movie.update({movie_id:req.body.movie_id},{movieNumSuppose:supportMovie.movieNumSuppose+1},function(err){
+      if(err){
+        res.json({status:1,message:'点赞失败',data:err})
+      }else{
+        res.json({status:0,message:'点赞成功'})
+      }
+    })
+  })
+
+})
 // 用户找回密码
 router.post('/findPassword', function(req, res, next) {})
 // 用户发送站内信
