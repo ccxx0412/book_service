@@ -4,7 +4,8 @@ var article = new mongoose.Schema({
     articleTitle: String,
     articleContext: String,
     articleTime: String
-})
+}, {versionKey: false} //去除mongoose的__v字段
+)
 //通过id查找
 article.statics.findByArticleId = function (id, callBack) {
     this.find({ _id: id }, callBack);
