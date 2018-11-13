@@ -191,7 +191,23 @@ router.post('/support', function(req, res, next) {
 
 })
 // 用户找回密码
-router.post('/findPassword', function(req, res, next) {})
+router.post('/findPassword', function(req, res, next) {
+  // 需要输入用户的邮箱信息和手机信息,同时可以更新密码
+  // 这里需要两个返回情况,一个req.body.repassword存在时,另一个是repassword不存在时
+  // 这个接口同时用于密码的重置,需要用户登陆
+  if(req.body.repassword){
+    // 当存在时,需要验证其登录情况或者验证其code
+    if(req.body.token){
+      // 当存在code登录状态时,验证其状态
+      if(!erq.body.user_id){
+        res.json({status:1,message:'用户登录错误'})
+      }
+      if (!erq.body.password) {
+        res.json({ status: 1, message: '用户老密码错误' })
+      }
+    }
+  }
+})
 // 用户发送站内信
 router.post('/sendEmail', function(req, res, next) {
   // 用户显示站内信时，其中的receive参数值为1时是发送的内容，值为2时是收到的内容

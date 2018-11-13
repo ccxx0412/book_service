@@ -1,4 +1,4 @@
-var mongoose = require('mongoose')
+var mongoose = require('../common/db')
 
 var movie = new mongoose.Schema({
   movieName: String,
@@ -13,7 +13,7 @@ var movie = new mongoose.Schema({
 movie.statics.findById = function(id, callBack) {
   this.findOne({ _id: id }, callBack)
 }
-movie.statics.findAll = function() {
+movie.statics.findAll = function(callBack) {
   this.find({}, callBack)
 }
 var movieModel = mongoose.model('movie', movie)

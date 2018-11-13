@@ -1,4 +1,4 @@
-var mongoose=require('mongoose')
+var mongoose=require('../common/db')
 // 评论数据集
 var comment=new mongoose.Schema({
     movie_id:String,
