@@ -9,7 +9,8 @@ var movie = new mongoose.Schema({
   movieNumSuppose: Number,
   movieNumDownload: Number,
   movieMainPage: Boolean
-})
+},{versionKey:false} //去除mongoose的__v字段
+)
 movie.statics.findById = function(id, callBack) {
   this.findOne({ _id: id }, callBack)
 }
