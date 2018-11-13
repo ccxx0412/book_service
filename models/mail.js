@@ -5,7 +5,8 @@ var mail = new mongoose.Schema({
     toUser: String,
     title: String,
     context: String
-})
+}, { versionKey: false } //去除mongoose的__v字段
+)
 mail.statics.findByToUserId = function (user_id, callBack) {
     this.find({ toUser: user_id }, callBack);
 };
