@@ -8,7 +8,7 @@ var article = new mongoose.Schema({
 )
 //通过id查找
 article.statics.findByArticleId = function (id, callBack) {
-    this.find({ _id: id }, callBack);
+    this.findOne({ _id: id }, callBack);
 };
 article.statics.findAll = function (callBack) {
     this.find({}, callBack);
