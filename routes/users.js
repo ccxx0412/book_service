@@ -42,7 +42,6 @@ router.post('/login', function(req, res, next) {
     // return false
   }
   user.findUserLogin(req.body.username, req.body.password, function(err,userSave) {
-    console.log(userSave)
     if (userSave.length != 0) {
       // 通过MD5查看密码
       console.log(userSave[0])
