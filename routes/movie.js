@@ -49,7 +49,7 @@ router.post('/download', function (req, res, next) {
                 if (err) {
                     res.json({ status: 1, message: "下载失败", data: err })
                 }
-                res.json({ status: 0, message: '下载成功', data: supportMovie.movieNumDownload })
+                res.json({ status: 0, message: '下载成功', data: supportMovie.movieDownload })
             })
         })
     }
@@ -97,7 +97,7 @@ router.post('/detail', function (req, res, next) {
  */
 router.post('/comment', function (req, res, next) {
     if (req.body.id) {
-        comment.findByMovieId(req.body.id, function (err, getComment) {
+        comment.findByMoiveId(req.body.id, function (err, getComment) {
             res.json({ status: 0, message: '获取成功', data: getComment })
         })
 
